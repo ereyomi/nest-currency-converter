@@ -10,10 +10,10 @@ import { map } from 'rxjs';
 import { AppService } from './app.service';
 import { Response } from 'express';
 
-@Controller()
+@Controller('currency')
 export class AppController {
   constructor(private readonly appService: AppService) {}
-  @Get('currency')
+  @Get()
   doCurrencyConvertion(
     @Query() query: { baseCurrency: string; targetCurrency: string },
     @Res() res: Response,
@@ -36,19 +36,27 @@ export class AppController {
         HttpStatus.FORBIDDEN,
       );
     }
-    return this.appService.findAll(query.baseCurrency).pipe(
+    // do save request in database
+    // send a response that we would reply via mail
+    // pick up request via cron job
+    return this.appService.getExchangerate(query.baseCurrency).pipe(
       map((data) => {
         const conversionRate = data['conversion_rates']?.[query.targetCurrency];
         return res.status(HttpStatus.OK).json({
-          result: data,
-          documentation: 'https://www.exchangerate-api.com/docs',
-          terms_of_use: 'https://www.exchangerate-api.com/terms',
           targetCurrency: query.targetCurrency,
           baseCurrency: query.baseCurrency,
           conversionRate,
-          data,
         });
       }),
     );
+  }
+  sendMail() {
+    return {
+      from: '"Fred Foo 👻" <foo@example.com>', // sender address
+      to: 'abc@example.com', // list of receivers
+      subject: 'Hello ✔', // Subject line
+      text: 'Hello world?', // plain text body
+      html: '<b>Hello world?</b>', // html body
+    };
   }
 }

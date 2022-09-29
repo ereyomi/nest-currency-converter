@@ -7,7 +7,7 @@ import { ExchangerateApiResponse } from './core/exchangerate.interface';
 @Injectable()
 export class AppService {
   constructor(private readonly httpService: HttpService) {}
-  findAll(
+  getExchangerate(
     baseCurrency: string,
   ): Observable<AxiosResponse<ExchangerateApiResponse>> {
     return this.httpService
@@ -17,7 +17,7 @@ export class AppService {
       .pipe(
         catchError((e) => {
           throw new HttpException(
-            e.response.data?.['error-type'] || 'unsuported currency code',
+            e.response.data?.['error-type'] || 'unsuported base currency code',
             e.response.status,
           );
         }),
