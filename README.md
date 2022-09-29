@@ -26,6 +26,18 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## endpoint
+
+```bash
+  /currency?baseCurrency={{}}&targetCurrency={{}}
+```
+
+e.g
+
+```bash
+  http://localhost:3000/currency?baseCurrency={{}}&targetCurrency={{}}
+```
+
 ## Installation
 
 ```bash

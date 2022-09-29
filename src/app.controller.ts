@@ -20,7 +20,7 @@ export class AppController {
   ) {
     if (!query.baseCurrency && !query.targetCurrency) {
       throw new HttpException(
-        'Query params (baseCurrency and targetCurrency) are missing ?baseCurrency={{}}&targetCurrency={{}}',
+        'Query params (baseCurrency and targetCurrency) are missing /currency?baseCurrency={{}}&targetCurrency={{}}',
         HttpStatus.FORBIDDEN,
       );
     }
